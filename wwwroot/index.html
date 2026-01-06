@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Web API</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .api-info {
+            margin: 20px 0;
+            padding: 15px;
+            background-color: #e9f7ef;
+            border-left: 4px solid #28a745;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 10px 0;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #result {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-radius: 4px;
+            min-height: 100px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to Test Web API</h1>
+        <p>This is a simple ASP.NET Core Web API application with a React frontend.</p>
+        
+        <div class="api-info">
+            <h3>API Endpoint</h3>
+            <p>Try out the weather forecast API:</p>
+            <button onclick="getWeather()">Get Weather Forecast</button>
+            <div id="result"></div>
+        </div>
+        
+        <div>
+            <h3>React Application</h3>
+            <p>A React application will be available when you run the React development server.</p>
+            <p>To run the React app locally:</p>
+            <ol>
+                <li>Navigate to the client directory: <code>cd client</code></li>
+                <li>Install dependencies: <code>npm install</code></li>
+                <li>Start the development server: <code>npm run dev</code></li>
+                <li>Access the React app at <a href="http://localhost:5173">http://localhost:5173</a></li>
+            </ol>
+        </div>
+    </div>
+
+    <script>
+        async function getWeather() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = 'Loading...';
+            
+            try {
+                const response = await fetch('/weatherforecast');
+                const data = await response.json();
+                resultDiv.innerHTML = '<h4>Weather Forecast:</h4>' + 
+                    '<pre>' + JSON.stringify(data, null, 2) + '</pre>';
+            } catch (error) {
+                resultDiv.innerHTML = 'Error: ' + error.message;
+            }
+        }
+    </script>
+</body>
+</html>

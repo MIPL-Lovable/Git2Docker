@@ -1,0 +1,13 @@
+**/bin
+**/obj
+**/node_modules
+**/.vite
+**/.vscode
+**/.git
+**/.gitignore
+**/README.md
+**/Dockerfile
+**/docker-compose.yml
+**/.dockerignore
+**/Properties/launchSettings.json
+**/appsettings.Development.json
