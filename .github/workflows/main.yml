@@ -10,30 +10,29 @@ jobs:
     runs-on: self-hosted
 
     steps:
+      # Step 1: Checkout the repo
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Verify Docker access
-        run: docker info
-
-      - name: Stop container using port 8081 (if any)
-        run: |
-          docker ps -q --filter "publish=8081" | xargs -r docker stop
-          docker ps -aq --filter "publish=8081" | xargs -r docker rm
-
-      - name: Remove old container (by name)
+      # Step 2: Stop and remove any existing container
+      - name: Stop & remove existing container
         run: |
           docker stop my-proj-container || true
           docker rm my-proj-container || true
 
+      # Step 3: Build the Docker image
       - name: Build Docker image
-        run: |
-          docker build --no-cache -t my-project-image:latest .
+        run: docker build -t my-project-image:latest .
 
+      # Step 4: Run the container
       - name: Run container
         run: |
           docker run -d \
             --name my-proj-container \
-            -p 8081:8080 \
+            -p 8081:80 \
             --restart always \
             my-project-image:latest
+
+      # Step 5: Verify the container is running
+      - name: List running containers
+        run: docker ps
