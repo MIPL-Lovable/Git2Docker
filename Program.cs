@@ -25,7 +25,7 @@ app.UseStaticFiles(new StaticFileOptions
     RequestPath = "/react"
 });
 
-app.UseHttpsRedirection();
+// app.UseHttpsRedirection();
 
 var summaries = new[]
 {
