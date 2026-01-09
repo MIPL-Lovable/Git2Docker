@@ -35,5 +35,7 @@ jobs:
             my-project-image:latest
  
       # 5️⃣ Optional: Check container logs
-      - name: Show container logs
-        run: docker logs -f my-proj-container
+      - name: Wait for container startup
+        run: |
+         Sleep 10
+         docker logs -f my-proj-container
