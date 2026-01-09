@@ -32,6 +32,7 @@ jobs:
 
       - name: Stop existing container (if any)
         run: |
+          docker stop my-proj-container || true
           docker rm -f my-proj-container || true
 
       - name: Run new container
