@@ -37,5 +37,5 @@ jobs:
       # 5️⃣ Optional: Check container logs
       - name: Wait for container startup
         run: |
-         Sleep 10
+         sleep 10
          docker logs -f my-proj-container
