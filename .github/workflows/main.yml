@@ -1,21 +1,30 @@
-- name: Login to Docker Hub
-  run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+name: Build & Deploy Docker App
 
-- name: Build image
-  run: docker build -t ${{ secrets.DOCKER_USERNAME }}/my-project-image:latest .
+on:
+  push:
+    branches:
+      - main
 
-- name: Push image
-  run: docker push ${{ secrets.DOCKER_USERNAME }}/my-project-image:latest
+jobs:
+  deploy:
+    runs-on: self-hosted
 
-- name: Stop & remove container
-  run: |
-    docker stop my-proj-container || true
-    docker rm my-proj-container || true
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-- name: Run container
-  run: |
-    docker run -d \
-      --name my-proj-container \
-      -p 8081:80 \
-      --restart always \
- ${{ secrets.DOCKER_USERNAME }}/my-project-image:latest
+      - name: Build Docker image
+        run: docker build -t my-project-image:latest .
+
+      - name: Stop existing container
+        run: |
+          docker stop my-proj-container || true
+          docker rm my-proj-container || true
+
+      - name: Run container
+        run: |
+          docker run -d \
+            --name my-proj-container \
+            -p 8081:80 \
+            --restart always \
+            my-project-image:latest
