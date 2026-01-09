@@ -35,7 +35,6 @@ jobs:
             my-project-image:latest
  
       # 5️⃣ Optional: Check container logs
-      - name: Wait for container startup
+      - name: Verify container is running
         run: |
-         sleep 10
-         docker logs -f my-proj-container
+         docker ps | grep my-proj-container
