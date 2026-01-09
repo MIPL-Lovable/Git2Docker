@@ -13,13 +13,22 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Build Docker image
-        run: docker build -t my-project-image:latest .
+      - name: Verify Docker access
+        run: docker info
 
-      - name: Stop existing container
+      - name: Stop container using port 8081 (if any)
+        run: |
+          docker ps -q --filter "publish=8081" | xargs -r docker stop
+          docker ps -aq --filter "publish=8081" | xargs -r docker rm
+
+      - name: Remove old container (by name)
         run: |
           docker stop my-proj-container || true
           docker rm my-proj-container || true
+
+      - name: Build Docker image
+        run: |
+          docker build --no-cache -t my-project-image:latest .
 
       - name: Run container
         run: |
