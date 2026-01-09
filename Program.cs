@@ -18,13 +18,16 @@ app.UseDefaultFiles();
 app.UseStaticFiles();
 
 // Serve React build files from the client/dist directory
-app.UseStaticFiles(new StaticFileOptions
-{
-    FileProvider = new PhysicalFileProvider(
-        Path.Combine(Directory.GetCurrentDirectory(), "client", "dist")),
-    RequestPath = "/react"
-});
+var distPath = Path.Combine(builder.Environment.ContentRootPath, "client/dist");
 
+if (Directory.Exists(distPath))
+{
+    app.UseStaticFiles(new StaticFileOptions
+    {
+        FileProvider = new PhysicalFileProvider(distPath),
+        RequestPath = ""
+    });
+}
 //app.UseHttpsRedirection();
 
 var summaries = new[]
